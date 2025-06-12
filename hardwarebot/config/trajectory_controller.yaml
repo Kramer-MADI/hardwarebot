@@ -1,0 +1,41 @@
+# This config file is used by ros2_control
+controller_manager:
+  ros__parameters:
+    update_rate: 100  # Hz
+
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+    bot_grip_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+
+    top_grip_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+
+bot_grip_controller:
+  ros__parameters:
+    joints:
+      - Revolute22
+      - Slider30
+      - Slider31
+    interface_name: position
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+      - velocity
+    allow_nonzero_velocity_at_trajectory_end: true
+
+top_grip_controller:
+  ros__parameters:
+    joints:
+      - Revolute27
+      - Slider28
+      - Slider29
+    interface_name: position
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+      - velocity
+    allow_nonzero_velocity_at_trajectory_end: true

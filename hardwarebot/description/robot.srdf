@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--This does not replace URDF, and is not an extension of URDF.
+    This is a format for representing semantic information about the robot structure.
+    A URDF file must exist for this robot as well, where the joints and the links that are referenced are defined
+-->
+<robot name="robot">
+
+
+    <!--GROUPS: Representation of a set of joints and links. This can be useful for specifying DOF to plan for, defining arms, end effectors, etc-->
+    <!--LINKS: When a link is specified, the parent joint of that link (if it exists) is automatically included-->
+    <!--JOINTS: When a joint is specified, the child link of that joint (which will always exist) is automatically included-->
+    <!--CHAINS: When a chain is specified, all the links along the chain (including endpoints) are included in the group. Additionally, all the joints that are parents to included links are also included. This means that joints along the chain and the parent joint of the base link are included in the group-->
+    <!--SUBGROUPS: Groups can also be formed by referencing to already defined group names-->
+    <group name="bot_grip">
+        <link name="base_link" />
+        <link name="Component5_1" />
+        <joint name="Revolute22" />
+    </group>
+   
+    <!--GROUP STATES: Purpose: Define a named state for a particular group, in terms of joint values. This is useful to define states like 'folded arms'-->
+    <!-- Update the group_state definitions to include all joints in their chains -->
+    <group_state name="bot0" group="bot_grip">
+        <joint name="Revolute22" value="0"/>
+    </group_state>
+   
+    <!--DISABLE COLLISIONS: By default it is assumed that any link of the robot could potentially come into collision with any other link in the robot. This tag disables collision checking between a specified pair of links. -->
+    <disable_collisions link1="base_link" link2="Component5_1" reason="Default"/>
+
+
+    <!--GROUPS: Representation of a set of joints and links. This can be useful for specifying DOF to plan for, defining arms, end effectors, etc-->
+    <!--LINKS: When a link is specified, the parent joint of that link (if it exists) is automatically included-->
+    <!--JOINTS: When a joint is specified, the child link of that joint (which will always exist) is automatically included-->
+    <!--CHAINS: When a chain is specified, all the links along the chain (including endpoints) are included in the group. Additionally, all the joints that are parents to included links are also included. This means that joints along the chain and the parent joint of the base link are included in the group-->
+    <!--SUBGROUPS: Groups can also be formed by referencing to already defined group names-->
+    <group name="top_grip">
+        <link name="base_link" />
+        <link name="Component1_1" />
+        <joint name="Revolute27" />
+    </group>
+
+
+    <!--GROUP STATES: Purpose: Define a named state for a particular group, in terms of joint values. This is useful to define states like 'folded arms'-->
+    <!-- Update the group_state definitions to include all joints in their chains -->
+    <group_state name="top0" group="top_grip">
+        <joint name="Revolute27" value="0"/>
+    </group_state>
+
+
+    <!--DISABLE COLLISIONS: By default it is assumed that any link of the robot could potentially come into collision with any other link in the robot. This tag disables collision checking between a specified pair of links. -->
+    <disable_collisions link1="base_link" link2="Component1_1" reason="Default"/>
+
+
+    <!--END EFFECTOR: Purpose: Represent information about an end effector.-->
+    <!--<end_effector name="bef" parent_link="Component8_1" group="bot_grip"/-->
+    <!--<end_effector name="tef" parent_link="Component9_1" group="top_grip"/>-->
+    <!--or-->
+    <!--<end_effector name="bef" parent_link="Component1_1" group="bot_grip" parent_group="bot_grip"/>-->
+    <!--<end_effector name="tef" parent_link="Component5_1" group="top_grip" parent_group="top_grip"/>-->
+    <!--or-->
+    <!--<end_effector name="bef" parent_link="Component3_1" group="bot_grip" parent_group="bot_grip"/>-->
+    <!--<end_effector name="tef" parent_link="Component10_1" group="top_grip" parent_group="top_grip"/>-->
+
+
+    <!--GROUPS: Representation of a set of joints and links. This can be useful for specifying DOF to plan for, defining arms, end effectors, etc-->
+    <!--LINKS: When a link is specified, the parent joint of that link (if it exists) is automatically included-->
+    <!--JOINTS: When a joint is specified, the child link of that joint (which will always exist) is automatically included-->
+    <!--CHAINS: When a chain is specified, all the links along the chain (including endpoints) are included in the group. Additionally, all the joints that are parents to included links are also included. This means that joints along the chain and the parent joint of the base link are included in the group-->
+    <!--SUBGROUPS: Groups can also be formed by referencing to already defined group names-->
+    <group name="gripper_top">
+        <link name="Component1_1"/>
+        <link name="Component3_1"/>
+        <link name="Component9_1"/>
+        <joint name="Slider29"/>
+        <passive_joint name="Slider28"/>
+    </group>
+
+
+    <!--GROUP STATES: Purpose: Define a named state for a particular group, in terms of joint values. This is useful to define states like 'folded arms'-->
+    <!--END EFFECTOR: Purpose: Represent information about an end effector.-->
+    <!--DISABLE COLLISIONS: By default it is assumed that any link of the robot could potentially come into collision with any other link in the robot. This tag disables collision checking between a specified pair of links. -->
+    <disable_collisions link1="Component1_1" link2="Component3_1" reason="Adjacent"/>
+    <disable_collisions link1="Component1_1" link2="Component9_1" reason="Adjacent"/>
+    <disable_collisions link1="Component3_1" link2="Component9_1" reason="Default"/>
+
+
+    <group_state name="reset" group="gripper_top">
+        <joint name="Revolute27" value="0"/>
+        <joint name="Slider28" value="0"/>
+        <joint name="Slider29" value="0"/>
+    </group_state>
+
+
+    <end_effector group="gripper_top" name="top" parent_group="top_grip" parent_link="Component1_1"/>
+
+
+    <!--GROUPS: Representation of a set of joints and links. This can be useful for specifying DOF to plan for, defining arms, end effectors, etc-->
+    <!--LINKS: When a link is specified, the parent joint of that link (if it exists) is automatically included-->
+    <!--JOINTS: When a joint is specified, the child link of that joint (which will always exist) is automatically included-->
+    <!--CHAINS: When a chain is specified, all the links along the chain (including endpoints) are included in the group. Additionally, all the joints that are parents to included links are also included. This means that joints along the chain and the parent joint of the base link are included in the group-->
+    <!--SUBGROUPS: Groups can also be formed by referencing to already defined group names-->
+    <group name="gripper_bot">
+        <link name="Component5_1"/>
+        <link name="Component8_1"/>
+        <link name="Component10_1"/>
+        <joint name="Slider31"/>
+        <passive_joint name="Slider30"/>
+    </group>
+
+
+    <!--GROUP STATES: Purpose: Define a named state for a particular group, in terms of joint values. This is useful to define states like 'folded arms'-->
+    <!--END EFFECTOR: Purpose: Represent information about an end effector.-->
+    <!--DISABLE COLLISIONS: By default it is assumed that any link of the robot could potentially come into collision with any other link in the robot. This tag disables collision checking between a specified pair of links. -->
+    <disable_collisions link1="Component5_1" link2="Component8_1" reason="Adjacent"/>
+    <disable_collisions link1="Component5_1" link2="Component10_1" reason="Adjacent"/>
+    <disable_collisions link1="Component8_1" link2="Component10_1" reason="Default"/>
+
+
+    <group_state name="rest" group="gripper_bot">
+        <joint name="Revolute22" value="0"/>
+        <joint name="Slider30" value="0"/>
+        <joint name="Slider31" value="0"/>
+    </group_state>
+
+
+    <end_effector group="gripper_bot" name="bot" parent_group="bot_grip" parent_link="Component5_1"/>
+</robot>
